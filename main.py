@@ -56,7 +56,12 @@ def message_text(event):
         event.reply_token,
         TextSendMessage(text="ともき")
     )
-        
+    
+    elif word == "1001010":
+        line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text="https://drive.google.com/file/d/1E8-LmF4IdL4NeuNK8FRT1Q7GiJi5CYzK/view?usp=sharing")
+    )
         
     else:    
         line_bot_api.reply_message(
