@@ -65,6 +65,11 @@ def message_text(event):
         
         pdf_list = fp(word)
         
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=pdf_list)
+        )
+        
         for pdf_path in pdf_list:
         
             line_bot_api.reply_message(
