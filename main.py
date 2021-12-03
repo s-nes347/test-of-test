@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 from argparse import ArgumentParser
 
 from flask import Flask, request, abort
@@ -12,6 +13,9 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+
+from test import file_path as fp
+
 
 app = Flask(__name__)
 
@@ -57,16 +61,21 @@ def message_text(event):
         TextSendMessage(text="ともき")
     )
     
-    elif word == "1001010":
-        line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text="https://drive.google.com/file/d/1E8-LmF4IdL4NeuNK8FRT1Q7GiJi5CYzK/view?usp=sharing")
-    )
+    elif re.match(r"^\d+$",word):
+        
+        pdf_list = fp(word)
+        
+        for pdf_path in pdf_list:
+        
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=pdf_path)
+        )
         
     else:    
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=event.message.text)
+            TextSendMessage(text="半角数字で入力して下さい。")
         )
 
 
