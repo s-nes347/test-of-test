@@ -72,6 +72,7 @@ def message_text(event):
         ftp.login(web_address, "pass0347")
         ftp.cwd(dir_name)
         file_list = ftp.nlst(".")
+        print(file_list)
         for pdf_path in file_list:
             if pdf_path in word:
                 pdf_list.append(web_address + dir_name + "/" + pdf_path)
