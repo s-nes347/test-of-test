@@ -14,7 +14,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-from test import file_path as fp
+import ftplib
 
 
 app = Flask(__name__)
@@ -63,19 +63,33 @@ def message_text(event):
     
     elif re.match(r"^\d+$",word):
         
-        pdf_list = fp(word)
+        dir_name = "/{}{}".format(word[0], "0"*(len(word)-1))
+        pdf_list = []
+        web_address = "test9test.html.xdomain.jp"
         
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=pdf_list)
-        )
+        ftp = ftplib.FTP("sv2.html.xdomain.ne.jp")
+        ftp.set_pasv('true')
+        ftp.login(web_address, "pass0347")
+        ftp.cwd(dir_name)
+        file_list = ftp.nlst(".")
+        for pdf_path in file_list:
+            if pdf_path in word:
+                pdf_list.append(web_address + dir_name + "/" + pdf_path)
+                
+        if not pdf_list:
+            for pdf_path in pdf_list:
+            
+                line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=pdf_path)
+            )
         
-        for pdf_path in pdf_list:
-        
+        else:
             line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=pdf_path)
-        )
+                event.reply_token,
+                TextSendMessage(text="データがありません。")
+            )
+            
         
     else:    
         line_bot_api.reply_message(
