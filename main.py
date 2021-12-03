@@ -69,7 +69,7 @@ def message_text(event):
         
         ftp = ftplib.FTP("sv2.html.xdomain.ne.jp")
         ftp.set_pasv('true')
-        ftp.login(web_address, "pass0347")
+        ftp.login("test9test.html.xdomain.jp", "pass0347")
         ftp.cwd(dir_name)
         file_list = ftp.nlst(".")
         print(file_list)
