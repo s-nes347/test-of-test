@@ -74,22 +74,37 @@ def message_text(event):
         try:
             ftp.cwd(dir_name)
             file_list = ftp.nlst(".")
-            print(file_list)
+            #print(file_list)
             for pdf_path in file_list:
                 if word in pdf_path:
                     pdf_list.append(web_address + dir_name + "/" + pdf_path)
                     
             if pdf_list:
-                print("NO1")
-                for pdf_path in pdf_list:
+                num = len(pdf_list)
+                
+                if num == 1:
                 
                     line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text=pdf_path)
+                    TextSendMessage(text=pdf_list[0])
                 )
-            
+                    
+                elif num == 2:
+                    
+                    line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=pdf_list[0]), TextSendMessage(text=pdf_list[1])]
+                )
+
+                else:
+                    
+                    line_bot_api.reply_message(
+                    event.reply_token,
+                    [TextSendMessage(text=pdf_list[0]), TextSendMessage(text=pdf_list[1]), TextSendMessage(text=pdf_list[2])]
+                )
+                      
             else:
-                print("NO2")
+                #print("NO2")
                 line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(text="データがありません。")
