@@ -78,6 +78,7 @@ def message_text(event):
                 pdf_list.append(web_address + dir_name + "/" + pdf_path)
                 
         if not pdf_list:
+            print("NO1")
             for pdf_path in pdf_list:
             
                 line_bot_api.reply_message(
@@ -86,6 +87,7 @@ def message_text(event):
             )
         
         else:
+            print("NO2")
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="データがありません。")
