@@ -65,11 +65,11 @@ def message_text(event):
         
         dir_name = "/{}{}".format(word[0], "0"*(len(word)-1))
         pdf_list = []
-        web_address = "test9test.html.xdomain.jp"
+        web_address = "testoftest.akazunoma.com"
         
-        ftp = ftplib.FTP("sv2.html.xdomain.ne.jp")
+        ftp = ftplib.FTP("ftp.homepage.shinobi.jp")
         ftp.set_pasv('true')
-        ftp.login("test9test.html.xdomain.jp", "pass0347")
+        ftp.login("testoftest.akazunoma.com", "snes347")
         ftp.cwd(dir_name)
         file_list = ftp.nlst(".")
         print(file_list)
