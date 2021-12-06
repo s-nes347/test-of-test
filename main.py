@@ -79,7 +79,7 @@ def message_text(event):
                 if word in pdf_path:
                     pdf_list.append(web_address + dir_name + "/" + pdf_path)
                     
-            if not pdf_list:
+            if pdf_list:
                 print("NO1")
                 for pdf_path in pdf_list:
                 
@@ -96,7 +96,10 @@ def message_text(event):
                 )
         
         except :
-            print("データがありません。")
+            line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text="データがありません。")
+                )
 
             
         
