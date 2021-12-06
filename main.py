@@ -70,28 +70,34 @@ def message_text(event):
         ftp = ftplib.FTP("ftp.homepage.shinobi.jp")
         ftp.set_pasv('true')
         ftp.login("testoftest.akazunoma.com", "snes347")
-        ftp.cwd(dir_name)
-        file_list = ftp.nlst(".")
-        print(file_list)
-        for pdf_path in file_list:
-            if pdf_path in word:
-                pdf_list.append(web_address + dir_name + "/" + pdf_path)
-                
-        if not pdf_list:
-            print("NO1")
-            for pdf_path in pdf_list:
-            
-                line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=pdf_path)
-            )
         
-        else:
-            print("NO2")
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="データがありません。")
-            )
+        try:
+            ftp.cwd(dir_name)
+            file_list = ftp.nlst(".")
+            print(file_list)
+            for pdf_path in file_list:
+                if word in pdf_path:
+                    pdf_list.append(web_address + dir_name + "/" + pdf_path)
+                    
+            if not pdf_list:
+                print("NO1")
+                for pdf_path in pdf_list:
+                
+                    line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=pdf_path)
+                )
+            
+            else:
+                print("NO2")
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text="データがありません。")
+                )
+        
+        except :
+            print("データがありません。")
+
             
         
     else:    
