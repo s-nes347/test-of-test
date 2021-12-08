@@ -19,15 +19,34 @@ import ftplib
 
 app = Flask(__name__)
 
-# get channel_secret and channel_access_token from your environment variable
+# get Config Vars
+#line
 channel_secret = os.getenv("LINE_CHANNEL_SECRET", None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
+#ftp
+web_address = os.getenv('WEB_ADDRESS', None)
+ftp_path = os.getenv('FTP_PATH', None)
+ftp_pass = os.getenv('FTP_PASS', None)
+
+#確認用
 if channel_secret is None:
-    print('Specify LINE_CHANNEL_SECRET as environment variable.')
+    print('LINE_CHANNEL_SECRETがありません')
     sys.exit(1)
 if channel_access_token is None:
-    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
+    print('LINE_CHANNEL_ACCESS_TOKENがありません')
     sys.exit(1)
+if web_address is None:
+    print('WEB_ADDRESSがありません')
+    sys.exit(1)
+if ftp_path is None:
+    print('FTP_PATHがありません')
+    sys.exit(1)
+if ftp_pass is None:
+    print('FTP_PASSがありません')
+    sys.exit(1)
+
+    
+    
 
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
@@ -65,16 +84,14 @@ def message_text(event):
         
         dir_name = "/{}{}".format(word[0], "0"*(len(word)-1))
         pdf_list = []
-        web_address = "testoftest.akazunoma.com"
-        
-        ftp = ftplib.FTP("ftp.homepage.shinobi.jp")
+                
+        ftp = ftplib.FTP(ftp_path)
         ftp.set_pasv('true')
-        ftp.login("testoftest.akazunoma.com", "snes347")
+        ftp.login(web_address, ftp_pass)
         
         try:
             ftp.cwd(dir_name)
             file_list = ftp.nlst(".")
-            #print(file_list)
             for pdf_path in file_list:
                 if word in pdf_path:
                     pdf_list.append(web_address + dir_name + "/" + pdf_path)
