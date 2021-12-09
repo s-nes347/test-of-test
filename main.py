@@ -25,6 +25,7 @@ channel_secret = os.getenv("LINE_CHANNEL_SECRET", None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 #ftp
 web_address = os.getenv('WEB_ADDRESS', None)
+ftp_user = os.getenv('FTP_USER', None)
 ftp_path = os.getenv('FTP_PATH', None)
 ftp_pass = os.getenv('FTP_PASS', None)
 
@@ -38,6 +39,9 @@ if channel_access_token is None:
 if web_address is None:
     print('WEB_ADDRESSがありません')
     sys.exit(1)
+if ftp_user is None:
+    print('FTP_USERがありません')
+    sys.exit(1)   
 if ftp_path is None:
     print('FTP_PATHがありません')
     sys.exit(1)
@@ -87,7 +91,7 @@ def message_text(event):
                 
         ftp = ftplib.FTP(ftp_path)
         ftp.set_pasv('true')
-        ftp.login(web_address, ftp_pass)
+        ftp.login(ftp_user, ftp_pass)
         
         try:
             ftp.cwd(dir_name)
