@@ -83,6 +83,21 @@ def message_text(event):
         event.reply_token,
         TextSendMessage(text="ともき")
     )
+    elif word == "いとう":
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="メガネ")
+    )
+    elif word == "いわさき":
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="常口")
+    )
+    elif word == "いいだ":
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="そんな人知りません。")
+    )
     
     elif re.match(r"^\d+$",word):
         
